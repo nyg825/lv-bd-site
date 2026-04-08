@@ -1116,6 +1116,10 @@ section {
   background: var(--color-space);
 }
 
+.team-photo.no-photo {
+  background: var(--color-space);
+}
+
 .team-photo-placeholder svg {
   width: 48px;
   height: 48px;
