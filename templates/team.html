@@ -28,16 +28,44 @@
     }
     /* Hero banner for team page */
     .team-hero {
-      padding: calc(var(--sp-section) + 80px) 0 var(--sp-section);
-      background: var(--color-space);
+      position: relative;
+      padding: calc(var(--sp-section) + 100px) 0 calc(var(--sp-section) + 20px);
       text-align: center;
+      overflow: hidden;
+    }
+    .team-hero-slideshow {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .team-hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+    .team-hero-slide.active {
+      opacity: 1;
+    }
+    .team-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(11, 24, 51, 0.65);
+      z-index: 1;
+    }
+    .team-hero .container {
+      position: relative;
+      z-index: 2;
     }
     .team-hero .section-label {
-      color: var(--color-steel);
+      color: rgba(255, 255, 255, 0.7);
     }
     .team-hero .section-title {
-      color: var(--color-concrete);
+      color: #ffffff;
       margin-bottom: 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
     @media (max-width: 900px) {
       .team-page .team-grid { grid-template-columns: repeat(3, 1fr); }
@@ -82,6 +110,14 @@
 
   <!-- ═══ Team Hero ═══ -->
   <section class="team-hero">
+    <div class="team-hero-slideshow">
+      <div class="team-hero-slide active" style="background-image: url('{{ url_for('static', filename='images/hero-oxford.jpg') }}')"></div>
+      <div class="team-hero-slide" style="background-image: url('{{ url_for('static', filename='images/hero-berryman2.jpg') }}')"></div>
+      <div class="team-hero-slide" style="background-image: url('{{ url_for('static', filename='images/hero-venice.jpg') }}')"></div>
+      <div class="team-hero-slide" style="background-image: url('{{ url_for('static', filename='images/hero-reading.jpg') }}')"></div>
+      <div class="team-hero-slide" style="background-image: url('{{ url_for('static', filename='images/hero-berryman1.jpg') }}')"></div>
+    </div>
+    <div class="team-hero-overlay"></div>
     <div class="container">
       <div class="section-label">Our People</div>
       <h2 class="section-title">Meet the Team</h2>
@@ -344,6 +380,19 @@
   </footer>
 
   <script>
+    // ── Team hero background slideshow ──
+    (function() {
+      const slides = document.querySelectorAll('.team-hero-slide');
+      if (slides.length <= 1) return;
+      let current = 0;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 5000);
+    })();
+
     // ── Mobile nav toggle ──
     const toggle = document.querySelector('.nav-toggle');
     const links = document.getElementById('nav-links');
