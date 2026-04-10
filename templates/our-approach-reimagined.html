@@ -1,0 +1,962 @@
+<!-- ═══ Our Approach — Reimagined (scoped component) ═══ -->
+<!-- Replaces the bid-process section in index.html -->
+<!-- All styles scoped under .approach-v2 to avoid conflicts -->
+
+<style>
+  /* ═══ APPROACH V2 — Scoped Styles ═══ */
+  .approach-v2 {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--sp-section) 40px calc(var(--sp-section) + 20px);
+  }
+
+  .approach-v2 .v2-label {
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-rust);
+    margin-bottom: var(--sp-md);
+  }
+
+  .approach-v2 .v2-title {
+    font-family: var(--font-display);
+    font-size: clamp(var(--fs-xxl), 5vw, var(--fs-hero));
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-denim);
+    margin-bottom: var(--sp-lg);
+  }
+
+  .approach-v2 .v2-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--fs-md);
+    line-height: 1.7;
+    color: var(--color-gray-dark);
+    max-width: 680px;
+    margin-bottom: var(--sp-xxl);
+  }
+
+  /* ── Philosophy Card ── */
+  .approach-v2 .v2-philosophy {
+    background: var(--color-denim);
+    border-radius: var(--radius-lg);
+    padding: 48px 56px;
+    margin-bottom: var(--sp-xxl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .approach-v2 .v2-philosophy::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(196, 88, 26, 0.25);
+    filter: blur(80px);
+  }
+
+  .approach-v2 .v2-philosophy p {
+    color: var(--color-steel);
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+  }
+
+  .approach-v2 .v2-philosophy p + p {
+    margin-top: var(--sp-lg);
+  }
+
+  .approach-v2 .v2-philosophy strong {
+    color: var(--color-rust-glow);
+    font-weight: 600;
+  }
+
+  /* ── Progress Bar ── */
+  .approach-v2 .v2-progress-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 0 8px;
+  }
+
+  .approach-v2 .v2-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--surface-border-md);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--sp-xxl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .approach-v2 .v2-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-rust), var(--color-rust-glow));
+    border-radius: var(--radius-sm);
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+  }
+
+  .approach-v2 .v2-progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    animation: v2-shimmer 2s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+  }
+
+  @keyframes v2-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .approach-v2 .v2-progress-fill::before {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-rust-glow);
+    box-shadow: 0 0 12px var(--color-rust-glow), 0 0 24px rgba(196, 88, 26, 0.25);
+    animation: v2-pulse 1.5s ease-in-out infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .approach-v2 .v2-progress-fill.active::before {
+    opacity: 1;
+  }
+
+  @keyframes v2-pulse {
+    0%, 100% { transform: scale(0.8); opacity: 0.6; }
+    50%      { transform: scale(1.2); opacity: 1; }
+  }
+
+  .approach-v2 .v2-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-steel);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+
+  .approach-v2 .v2-dot.active {
+    background: var(--color-rust);
+    box-shadow: 0 0 0 4px rgba(196, 88, 26, 0.25);
+    transform: scale(1.3);
+  }
+
+  .approach-v2 .v2-dot.visited {
+    background: var(--color-rust);
+  }
+
+  /* ── Step Cards ── */
+  .approach-v2 .v2-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+  }
+
+  .approach-v2 .v2-card {
+    border-radius: var(--radius-lg);
+    padding: 28px 20px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 2px solid transparent;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    animation: v2-fadeInUp 0.5s ease both;
+  }
+
+  .approach-v2 .v2-card:nth-child(1) { animation-delay: 0.05s; }
+  .approach-v2 .v2-card:nth-child(2) { animation-delay: 0.1s; }
+  .approach-v2 .v2-card:nth-child(3) { animation-delay: 0.15s; }
+  .approach-v2 .v2-card:nth-child(4) { animation-delay: 0.2s; }
+  .approach-v2 .v2-card:nth-child(5) { animation-delay: 0.25s; }
+  .approach-v2 .v2-card:nth-child(6) { animation-delay: 0.3s; }
+  .approach-v2 .v2-card:nth-child(7) { animation-delay: 0.35s; }
+
+  @keyframes v2-fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .approach-v2 .v2-card:nth-child(odd) {
+    background: var(--color-denim);
+    color: var(--color-white);
+  }
+
+  .approach-v2 .v2-card:nth-child(even) {
+    background: var(--color-rust);
+    color: var(--color-white);
+  }
+
+  .approach-v2 .v2-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .approach-v2 .v2-card.active {
+    border-color: var(--color-rust-glow);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .approach-v2 .v2-card:nth-child(even).active {
+    border-color: var(--color-white);
+  }
+
+  /* Card icon */
+  .approach-v2 .v2-card-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 14px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .approach-v2 .v2-card:hover .v2-card-icon,
+  .approach-v2 .v2-card.active .v2-card-icon {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+
+  .approach-v2 .v2-card-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Card number badge */
+  .approach-v2 .v2-card-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .approach-v2 .v2-card:nth-child(odd) .v2-card-num {
+    background: rgba(255,255,255,0.12);
+    color: var(--color-rust-glow);
+  }
+
+  .approach-v2 .v2-card:nth-child(even) .v2-card-num {
+    background: rgba(255,255,255,0.2);
+    color: var(--color-white);
+  }
+
+  .approach-v2 .v2-card.active .v2-card-num {
+    background: var(--color-rust-glow);
+    color: var(--color-white);
+  }
+
+  .approach-v2 .v2-card:nth-child(even).active .v2-card-num {
+    background: var(--color-white);
+    color: var(--color-rust);
+  }
+
+  .approach-v2 .v2-card-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .approach-v2 .v2-card-brief {
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    opacity: 0.65;
+    flex-grow: 1;
+  }
+
+  .approach-v2 .v2-card-arrow {
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-rust);
+    font-size: 18px;
+    z-index: 3;
+    opacity: 0.5;
+  }
+
+  .approach-v2 .v2-card:last-child .v2-card-arrow { display: none; }
+
+  /* ── Detail Panel ── */
+  .approach-v2 .v2-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.4s ease,
+                margin 0.4s ease;
+    opacity: 0;
+    margin-top: 0;
+  }
+
+  .approach-v2 .v2-detail.open {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: var(--sp-xl);
+  }
+
+  .approach-v2 .v2-detail-inner {
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--surface-border);
+    position: relative;
+  }
+
+  .approach-v2 .v2-detail-indicator {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .approach-v2 .v2-detail-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-lg);
+    background: var(--surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .approach-v2 .v2-detail-icon svg {
+    width: 32px;
+    height: 32px;
+    color: var(--color-rust);
+  }
+
+  .approach-v2 .v2-detail-num {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-denim);
+    color: var(--color-rust-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: 800;
+  }
+
+  .approach-v2 .v2-detail-step-label {
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-gray);
+  }
+
+  .approach-v2 .v2-detail-content {
+    flex-grow: 1;
+  }
+
+  .approach-v2 .v2-detail-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: 800;
+    color: var(--color-denim);
+    margin-bottom: 12px;
+  }
+
+  .approach-v2 .v2-detail-desc {
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: 1.8;
+    color: var(--color-gray-dark);
+    margin-bottom: var(--sp-lg);
+  }
+
+  .approach-v2 .v2-detail-tags {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .approach-v2 .v2-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--surface-alt);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-denim);
+  }
+
+  .approach-v2 .v2-tag-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-rust);
+  }
+
+  .approach-v2 .v2-detail-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--surface-alt);
+    color: var(--color-denim);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .approach-v2 .v2-detail-close:hover {
+    background: var(--color-denim);
+    color: var(--color-white);
+  }
+
+  /* ── Navigation Buttons ── */
+  .approach-v2 .v2-nav {
+    display: flex;
+    gap: 8px;
+    margin-top: var(--sp-lg);
+  }
+
+  .approach-v2 .v2-nav button {
+    padding: 8px 20px;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--color-denim);
+    background: transparent;
+    color: var(--color-denim);
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .approach-v2 .v2-nav button:hover {
+    background: var(--color-denim);
+    color: var(--color-white);
+  }
+
+  .approach-v2 .v2-nav button.primary {
+    background: var(--color-rust);
+    border-color: var(--color-rust);
+    color: var(--color-white);
+  }
+
+  .approach-v2 .v2-nav button.primary:hover {
+    background: var(--color-rust-glow);
+    border-color: var(--color-rust-glow);
+  }
+
+  /* ── CTA Banner ── */
+  .approach-v2 .v2-cta {
+    margin-top: var(--sp-xxl);
+    background: var(--color-denim);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.5s ease 0.2s,
+                margin 0.5s ease;
+  }
+
+  .approach-v2 .v2-cta.visible {
+    max-height: 300px;
+    opacity: 1;
+  }
+
+  .approach-v2 .v2-cta-inner {
+    padding: 48px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .approach-v2 .v2-cta-inner::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(196, 88, 26, 0.25);
+    filter: blur(60px);
+  }
+
+  .approach-v2 .v2-cta-inner::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    right: 120px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(196, 88, 26, 0.12);
+    filter: blur(80px);
+  }
+
+  .approach-v2 .v2-cta-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .approach-v2 .v2-cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--color-rust-light);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-rust-glow);
+    margin-bottom: var(--sp-md);
+  }
+
+  .approach-v2 .v2-cta-badge .v2-checkmark {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-rust-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .approach-v2 .v2-cta-badge .v2-checkmark svg {
+    width: 10px;
+    height: 10px;
+    color: var(--color-white);
+  }
+
+  .approach-v2 .v2-cta-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: 800;
+    color: var(--color-white);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .approach-v2 .v2-cta-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    color: var(--color-steel);
+    line-height: 1.6;
+  }
+
+  .approach-v2 .v2-cta-actions {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .approach-v2 .v2-cta-btn {
+    padding: 16px 36px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: var(--fs-base);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    text-align: center;
+    border: 2px solid transparent;
+    display: inline-block;
+  }
+
+  .approach-v2 .v2-cta-btn.primary {
+    background: var(--color-rust);
+    color: var(--color-white);
+    border-color: var(--color-rust);
+  }
+
+  .approach-v2 .v2-cta-btn.primary:hover {
+    background: var(--color-rust-glow);
+    border-color: var(--color-rust-glow);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .approach-v2 .v2-cta-btn.secondary {
+    background: transparent;
+    color: var(--color-white);
+    border-color: rgba(255,255,255,0.25);
+    font-size: var(--fs-sm);
+    padding: 10px 24px;
+  }
+
+  .approach-v2 .v2-cta-btn.secondary:hover {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* Celebration dots */
+  .approach-v2 .v2-celebration {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .approach-v2 .v2-confetti {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  .approach-v2 .v2-cta.visible .v2-confetti {
+    animation: v2-floatUp 2s ease-out forwards;
+  }
+
+  @keyframes v2-floatUp {
+    0%   { opacity: 0; transform: translateY(40px) scale(0); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-60px) scale(1); }
+  }
+
+  /* ── Keyboard Hint ── */
+  .approach-v2 .v2-keyhint {
+    text-align: center;
+    margin-top: var(--sp-xl);
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    color: var(--color-gray);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .approach-v2 .v2-keyhint.visible {
+    opacity: 1;
+  }
+
+  .approach-v2 .v2-keyhint kbd {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-alt);
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    margin: 0 2px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .approach-v2 .v2-grid { grid-template-columns: repeat(4, 1fr); }
+    .approach-v2 .v2-card-arrow { display: none !important; }
+    .approach-v2 .v2-cta-inner { flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 768px) {
+    .approach-v2 { padding: var(--sp-xxl) 24px var(--sp-section); }
+    .approach-v2 .v2-grid { grid-template-columns: repeat(2, 1fr); }
+    .approach-v2 .v2-philosophy { padding: var(--sp-xl) 28px; }
+    .approach-v2 .v2-detail-inner { flex-direction: column; padding: 28px; gap: 20px; }
+    .approach-v2 .v2-detail-tags { flex-direction: column; gap: 8px; }
+    .approach-v2 .v2-cta-inner { padding: 32px 28px; }
+    .approach-v2 .v2-cta-title { font-size: var(--fs-lg); }
+  }
+
+  @media (max-width: 480px) {
+    .approach-v2 .v2-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="approach-v2" id="bid-process">
+  <div class="v2-label">Our Approach</div>
+  <h2 class="v2-title">Partnership, Not Competition</h2>
+  <p class="v2-subtitle">
+    We don't compete against other general contractors for your project. We partner with vetted development teams and build together.
+  </p>
+
+  <div class="v2-philosophy">
+    <p>
+      Traditional procurement pits GCs against each other in a competitive bid &mdash; often at the expense of transparency and long-term alignment. We take a different approach. <strong>LV Construction works exclusively in a partnership format</strong> with development partners we know and trust. The competitive bidding happens where it matters most: at the subcontractor level, where our deep trade relationships produce genuinely competitive pricing through open-book transparency.
+    </p>
+    <p>
+      This model creates the pricing environment developers seek while preserving the alignment that makes projects run smoothly. When a developer and GC share full visibility into how a project is actually bid, priced, and built, the result is a <strong>stronger capital stack, cleaner draws, and a project that lenders and equity partners can underwrite with confidence</strong>.
+    </p>
+  </div>
+
+  <!-- Progress dots -->
+  <div class="v2-progress-track" id="v2ProgressTrack"></div>
+  <div class="v2-progress-bar">
+    <div class="v2-progress-fill" id="v2ProgressFill"></div>
+  </div>
+
+  <!-- Step Cards -->
+  <div class="v2-grid" id="v2Grid"></div>
+
+  <!-- Expanded Detail Panel -->
+  <div class="v2-detail" id="v2Detail">
+    <div class="v2-detail-inner">
+      <div class="v2-detail-indicator">
+        <div class="v2-detail-icon" id="v2DetailIcon"></div>
+        <div class="v2-detail-num" id="v2DetailNum">1</div>
+        <div class="v2-detail-step-label">Step</div>
+      </div>
+      <div class="v2-detail-content">
+        <h3 class="v2-detail-title" id="v2DetailTitle"></h3>
+        <p class="v2-detail-desc" id="v2DetailDesc"></p>
+        <div class="v2-detail-tags" id="v2DetailTags"></div>
+        <div class="v2-nav">
+          <button id="v2PrevBtn" onclick="v2Navigate(-1)">&larr; Previous</button>
+          <button id="v2NextBtn" class="primary" onclick="v2Navigate(1)">Next &rarr;</button>
+        </div>
+      </div>
+      <button class="v2-detail-close" onclick="v2ClosePanel()">&times;</button>
+    </div>
+  </div>
+
+  <!-- CTA Banner (hidden until all steps visited) -->
+  <div class="v2-cta" id="v2Cta">
+    <div class="v2-celebration" id="v2Celebration"></div>
+    <div class="v2-cta-inner">
+      <div class="v2-cta-text">
+        <div class="v2-cta-badge">
+          <span class="v2-checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          You've seen our full process
+        </div>
+        <div class="v2-cta-title">Ready to Build Together?</div>
+        <div class="v2-cta-subtitle">Let's start with an honest conversation about your project.</div>
+      </div>
+      <div class="v2-cta-actions">
+        <a href="mailto:admin@lvllc.com" class="v2-cta-btn primary">Start a Conversation</a>
+        <a href="#track-record" class="v2-cta-btn secondary">View Our Projects</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="v2-keyhint" id="v2KeyHint">
+    Use <kbd>&larr;</kbd> <kbd>&rarr;</kbd> arrow keys to navigate steps
+  </div>
+</section>
+
+<script>
+(function() {
+  // SVG icons for each step
+  const v2Icons = {
+    handshake: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24l8-8 6 2 8-8"/><path d="M42 24l-8-8-6 2-8-8"/><path d="M14 28l4 4 6-2 4 4"/><path d="M22 38l-4-4"/><path d="M30 34l4-4"/><circle cx="6" cy="24" r="2"/><circle cx="42" cy="24" r="2"/></svg>`,
+    calculator: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="6" width="28" height="36" rx="3"/><rect x="15" y="11" width="18" height="8" rx="1"/><circle cx="18" cy="26" r="1.5" fill="currentColor"/><circle cx="24" cy="26" r="1.5" fill="currentColor"/><circle cx="30" cy="26" r="1.5" fill="currentColor"/><circle cx="18" cy="33" r="1.5" fill="currentColor"/><circle cx="24" cy="33" r="1.5" fill="currentColor"/><circle cx="30" cy="33" r="1.5" fill="currentColor"/></svg>`,
+    stack: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18l18-10 18 10"/><path d="M6 24l18 10 18-10"/><path d="M6 32l18 10 18-10"/></svg>`,
+    openbook: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8h12c2 0 4 2 4 4v24c0-2-2-3-4-3H8V8z"/><path d="M40 8H28c-2 0-4 2-4 4v24c0-2 2-3 4-3h12V8z"/><path d="M14 16h2"/><path d="M14 22h4"/><path d="M32 16h2"/><path d="M30 22h4"/></svg>`,
+    shield: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4L8 12v12c0 10 8 16 16 20 8-4 16-10 16-20V12L24 4z"/><polyline points="18 24 22 28 30 20"/></svg>`,
+    crane: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 42V10"/><path d="M16 10L36 6"/><path d="M36 6v10"/><path d="M36 16h-6v8h6"/><path d="M10 42h12"/><path d="M12 10h8"/><path d="M13 18h6"/><path d="M14 26h4"/></svg>`,
+    flag: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 42V8"/><path d="M10 8c4-3 8-2 12 0s8 3 12 0v18c-4 3-8 2-12 0s-8-3-12 0"/><circle cx="28" cy="17" r="3"/></svg>`
+  };
+
+  const v2Steps = [
+    { num: 1, title: "Partnership Alignment", brief: "Project goals, engage as a partner, not a bidder", icon: "handshake",
+      description: "We begin with an honest conversation about your project goals, capital structure, and timeline. If there is a fit, we engage as your construction partner, not a competing bidder. This early alignment sets the tone for every decision that follows.",
+      tags: ["Scope Review", "Timeline Planning", "Team Fit Assessment"] },
+    { num: 2, title: "Preconstruction & Budgeting", brief: "Proprietary cost data estimates to position your project for equity and debt at no cost", icon: "calculator",
+      description: "We deliver a detailed conceptual estimate by CSI division using our proprietary existing project cost data, allowing the developer partner to finalize achievable underwriting to help position the project for equity and debt conversations at no cost. Full preconstruction services are available for projects that have already achieved commitments for project capitalization.",
+      tags: ["CSI Division Estimates", "Proprietary Cost Data", "Underwriting Support"] },
+    { num: 3, title: "Project Capitalization", brief: "Six Peak helps advise on capitalization strategies", icon: "stack",
+      description: "In partnership with Six Peak, we help advise on capitalization strategies, and in select circumstances provide credit enhancement and capital for projects. A successful commitment for equity and debt capitalization triggers the competitive subcontractor bidding process, lining it up to coincide with construction loan closing.",
+      tags: ["Capital Advisory", "Credit Enhancement", "Loan Coordination"] },
+    { num: 4, title: "Competitive Subcontractor Bidding", brief: "Scoped bids to vetted trade base with full transparency and open-book pricing", icon: "openbook",
+      description: "We issue scoped bid packages to our vetted trade base, receive competitive proposals, and level bids scope for scope. Every number is transparent \u2014 you see exactly what we see. We can provide advised detail about which subs are best for each project subject to cost and availability. Full bidding takes 7 to 9 weeks and is most productive as the project approaches RTI and has fire department approval.",
+      tags: ["Scope-for-Scope Leveling", "7\u20139 Week Timeline", "RTI Coordination"] },
+    { num: 5, title: "GMP & Capital Support", brief: "Guaranteed maximum price delivered and structured for lender confidence", icon: "shield",
+      description: "We deliver a Guaranteed Maximum Price structured specifically to give lenders confidence. Because the GMP is backed by real subcontractor bids \u2014 not estimates \u2014 your financing partners get the certainty they need to move forward without excessive contingencies.",
+      tags: ["GMP Delivery", "Lender Structuring", "Risk Mitigation"] },
+    { num: 6, title: "Mobilization", brief: "Contracts finalized, buyouts commence, site groundbreaking", icon: "crane",
+      description: "With contracts finalized and buyouts underway, we mobilize quickly. Our established subcontractor relationships mean faster buyouts, cleaner contracts, and a site team ready to break ground without the delays that plague competitively bid projects.",
+      tags: ["Contract Execution", "Subcontractor Buyout", "Site Readiness"] },
+    { num: 7, title: "Construction & Closeout", brief: "Full project management to CO, real-time tracking and schedule transparency", icon: "flag",
+      description: "From first shovel to certificate of occupancy, we manage every detail with real-time cost tracking and schedule transparency. Monthly reporting keeps all stakeholders aligned, and our closeout process ensures clean turnover with no loose ends.",
+      tags: ["Real-Time Tracking", "Monthly Reporting", "Clean Turnover"] }
+  ];
+
+  let v2Active = null;
+  const v2Visited = new Set();
+  let v2CtaShown = false;
+
+  // Build step cards
+  const grid = document.getElementById('v2Grid');
+  v2Steps.forEach((step, i) => {
+    const card = document.createElement('div');
+    card.className = 'v2-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.innerHTML = `
+      <div class="v2-card-icon">${v2Icons[step.icon]}</div>
+      <div class="v2-card-num">${step.num}</div>
+      <div class="v2-card-title">${step.title}</div>
+      <div class="v2-card-brief">${step.brief}</div>
+      ${i < v2Steps.length - 1 ? '<div class="v2-card-arrow">\u2192</div>' : ''}
+    `;
+    card.addEventListener('click', () => v2OpenStep(i));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); v2OpenStep(i); }
+    });
+    grid.appendChild(card);
+  });
+
+  // Build progress dots
+  const track = document.getElementById('v2ProgressTrack');
+  v2Steps.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'v2-dot';
+    dot.addEventListener('click', () => v2OpenStep(i));
+    track.appendChild(dot);
+  });
+
+  window.v2OpenStep = function(index) {
+    v2Active = index;
+    v2Visited.add(index);
+    const step = v2Steps[index];
+    const panel = document.getElementById('v2Detail');
+
+    document.querySelectorAll('.v2-card').forEach((c, i) => {
+      c.classList.toggle('active', i === index);
+    });
+
+    v2UpdateProgress(index);
+
+    document.getElementById('v2DetailNum').textContent = step.num;
+    document.getElementById('v2DetailTitle').textContent = step.title;
+    document.getElementById('v2DetailDesc').textContent = step.description;
+    document.getElementById('v2DetailIcon').innerHTML = v2Icons[step.icon].replace(/currentColor/g, '#C4581A');
+
+    const tagsEl = document.getElementById('v2DetailTags');
+    tagsEl.innerHTML = step.tags.map(t =>
+      `<span class="v2-tag"><span class="v2-tag-dot"></span>${t}</span>`
+    ).join('');
+
+    document.getElementById('v2PrevBtn').style.display = index === 0 ? 'none' : '';
+    document.getElementById('v2NextBtn').textContent = index === v2Steps.length - 1 ? 'Back to Start \u21BA' : 'Next \u2192';
+
+    panel.classList.add('open');
+    document.getElementById('v2KeyHint').classList.add('visible');
+
+    setTimeout(() => {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+
+    v2CheckCompletion();
+  };
+
+  window.v2ClosePanel = function() {
+    document.getElementById('v2Detail').classList.remove('open');
+    document.querySelectorAll('.v2-card').forEach(c => c.classList.remove('active'));
+    v2Active = null;
+  };
+
+  window.v2Navigate = function(dir) {
+    if (v2Active === null) return;
+    let next = v2Active + dir;
+    if (next >= v2Steps.length) next = 0;
+    if (next < 0) next = v2Steps.length - 1;
+    v2OpenStep(next);
+  };
+
+  function v2UpdateProgress(index) {
+    const fill = document.getElementById('v2ProgressFill');
+    const pct = (index / (v2Steps.length - 1)) * 100;
+    fill.style.width = pct + '%';
+    fill.classList.add('active');
+
+    document.querySelectorAll('.v2-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+      dot.classList.toggle('visited', v2Visited.has(i) && i !== index);
+    });
+  }
+
+  function v2CheckCompletion() {
+    if (v2CtaShown) return;
+    if (v2Visited.size === v2Steps.length) {
+      v2CtaShown = true;
+      const banner = document.getElementById('v2Cta');
+
+      const dotsContainer = document.getElementById('v2Celebration');
+      const colors = ['#C4581A', '#E8935A', '#F8FAFC', '#C4581A', '#E8935A'];
+      for (let i = 0; i < 20; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'v2-confetti';
+        dot.style.left = (Math.random() * 100) + '%';
+        dot.style.bottom = '0';
+        dot.style.background = colors[i % colors.length];
+        dot.style.animationDelay = (Math.random() * 0.8) + 's';
+        dot.style.animationDuration = (1.5 + Math.random()) + 's';
+        dotsContainer.appendChild(dot);
+      }
+
+      const fill = document.getElementById('v2ProgressFill');
+      fill.style.width = '100%';
+
+      setTimeout(() => {
+        banner.classList.add('visible');
+        setTimeout(() => {
+          banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
+      }, 400);
+    }
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (v2Active === null) return;
+    if (e.key === 'ArrowRight') v2Navigate(1);
+    if (e.key === 'ArrowLeft') v2Navigate(-1);
+    if (e.key === 'Escape') v2ClosePanel();
+  });
+})();
+</script>
