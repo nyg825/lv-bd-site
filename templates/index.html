@@ -439,7 +439,7 @@
         </div>
         <div class="team-member">
           <div class="team-photo">
-            <div class="team-photo-placeholder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <img src="{{ url_for('static', filename='images/team/mike-savaikie.png') }}" alt="Mike Savaikie" loading="lazy">
           </div>
           <h3>Mike Savaikie</h3>
           <p class="team-role">Project Superintendent</p>
@@ -495,7 +495,7 @@
         </div>
         <div class="team-member">
           <div class="team-photo">
-            <div class="team-photo-placeholder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <img src="{{ url_for('static', filename='images/team/lucy-mohler.jpg') }}" alt="Lucy Mohler" loading="lazy">
           </div>
           <h3>Lucy Mohler</h3>
           <p class="team-role">Assistant Project Manager</p>
@@ -536,7 +536,9 @@
           <p class="team-role">Assistant Project Manager</p>
         </div>
         <div class="team-member">
-          <div class="team-photo no-photo"></div>
+          <div class="team-photo">
+            <img src="{{ url_for('static', filename='images/team/brisa-sanchez.png') }}" alt="Brisa Sanchez" loading="lazy">
+          </div>
           <h3>Brisa Sanchez</h3>
           <p class="team-role">Project Coordinator</p>
         </div>
