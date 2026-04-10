@@ -35,10 +35,6 @@ def team():
     return render_template("team.html")
 
 
-@app.route("/preview/approach")
-def preview_approach():
-    return render_template("preview-approach.html")
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
